@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+    <title>Vonage Video Express x Firebase Extensions</title>
+
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/9.0.2/firebase-app-compat.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <!-- <script defer src="/__/firebase/9.0.2/firebase-auth-compat.js"></script> -->
+    <!-- <script defer src="/__/firebase/9.0.2/firebase-database-compat.js"></script> -->
+    <script defer src="/__/firebase/9.0.2/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.0.2/firebase-functions-compat.js"></script>
+    <!-- <script defer src="/__/firebase/9.0.2/firebase-messaging-compat.js"></script> -->
+    <!-- <script defer src="/__/firebase/9.0.2/firebase-storage-compat.js"></script> -->
+    <!-- <script defer src="/__/firebase/9.0.2/firebase-analytics-compat.js"></script> -->
+    <!-- <script defer src="/__/firebase/9.0.2/firebase-remote-config-compat.js"></script> -->
+    <!-- <script defer src="/__/firebase/9.0.2/firebase-performance-compat.js"></script> -->
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script defer src="/__/firebase/init.js?useEmulator=false"></script>
+
+
+    <!-- <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon"> -->
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <!-- Load Vonage Video Express -->
+    <script src="https://static.opentok.com/v0/js/multiparty-sdk.js"></script>        
+    <!-- Fill in with values from the server -->
+    <!-- <script type="text/javascript">
+      const apiKey = '<%= apiKey %>';
+      const sessionId = '<%= sessionId %>';
+      const token = '<%= token %>';
+    </script> -->
+    <!-- import the webpage's client-side javascript file -->
+    <script type="module" src="/js/room.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vonage Video Express x Firebase Extensions</h1>
+      <img id="logo" src="https://cdn.glitch.com/eef7a53f-5c6f-4289-9b47-c44aed2efe72%2Fvideo-express-logo.png?v=1632163644740"/>
+    </header>    
+    <section id="previewContainer">
+      <div id="myPreviewVideo"></div>
+      <div id="select-devices">
+        <div>
+          <label for="audio-source-select">Audio Source:</label>
+          <select id="audio-source-select">
+          </select><br/>
+          <label for="video-source-select">Video Source:</label>
+          <select id="video-source-select">
+          </select>          
+        </div>
+        <div>
+          <button id="previewSelection" type="button">Preview Selection</button><br/>
+        </div>
+      </div>
+      <br/>
+      <input type="text" id="participant-name" placeholder="please enter your name"/>
+      <button id="joinRoomButton" disabled>
+        join room
+      </button>
+      <div id="permissionDenied">
+        Please allow access to camera and microphone for demo to work <button id="requestAccess">try again</button>
+      </div>    
+    </section>
+    <section id="VEcontainer">
+      <div id="roomContainer"></div>
+      <div id="mySection">
+        <fieldset>
+          <legend>My video</legend>
+          <div id="myVideo"></div>
+        </fieldset>
+        <fieldset>
+          <legend>My controls</legend>
+          <div>
+            <button id="videoButton">
+              toggle video
+            </button>
+            <span id="videoStatus"></span>
+          </div>
+          <div>
+            <button id="audioButton">
+              toggle microphone
+            </button>
+            <span id="audioStatus"></span>
+          </div>
+          <div>
+            <button id="layoutButton">
+              toggle layout
+            </button>
+            <span id="layoutStatus">grid</span>
+          </div>
+          <button id="screenshareStartButton">
+            start screenshare
+          </button>
+          <button id="screenshareStopButton">
+            stop screenshare
+          </button>
+          <br/><button id="leaveButton">leave</button>
+        </fieldset>
+        <div id="myScreenshare"></div>        
+      </div>
+    </section>
+    <footer>Made with the <a href="https://tokbox.com/developer/multiparty/" target="_blank">Vonage Video Express</a>!</footer>
+  </body>
+</html>
