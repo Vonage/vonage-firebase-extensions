@@ -4,15 +4,31 @@
 
 To get an overview and reference for the API, visit the [Video Express documentation](https://tokbox.com/developer/video-express/).
 
+### Post-installation configuration
+
+Before you can use this extension, you'll need to update your security rules and add some code to your JavaScript app.
+
+#### Update security rules
+
+Update your Cloud Firestore security rules to allow lookups and writes to the `rooms` collection and participant sub-collection.
+
+```
+   match /rooms/{id} {
+       allow read, write, create, update: if true;
+   }
+
+   match /rooms/{id}/participants/{pid} {
+       allow read, write, create, update: if true;
+   }
+```
+
 ### Demo application
 
 To get started quickly, there is a demo application so that you can take a look at some code and deploy to Firebase hosting to see the Vonage Video Express in action.
 
-The code can be found in this [GitHub repo]().
+The code can be found in this [GitHub repo](https://github.com/Vonage/vonage-firebase-extensions/tree/main/demos/video-express/public).
 
 The Vonage CLI can be used to scaffold the demo application and be deployed to Firebase hosting.
-
-**INSTRUCTIONS GO HERE**
 
 ### More resources
 
