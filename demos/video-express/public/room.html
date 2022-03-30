@@ -44,31 +44,45 @@
   <body>
     <header>
       <h1>Vonage Video Express x Firebase Extensions</h1>
-      <img id="logo" src="https://cdn.glitch.com/eef7a53f-5c6f-4289-9b47-c44aed2efe72%2Fvideo-express-logo.png?v=1632163644740"/>
-    </header>    
+      <img
+        id="logo"
+        src="https://cdn.glitch.com/eef7a53f-5c6f-4289-9b47-c44aed2efe72%2Fvideo-express-logo.png?v=1632163644740"
+      />
+    </header>
     <section id="previewContainer">
       <div id="myPreviewVideo"></div>
+      <br />
+      <br />
       <div id="select-devices">
         <div>
           <label for="audio-source-select">Audio Source:</label>
-          <select id="audio-source-select">
-          </select><br/>
+          <select id="audio-source-select"></select
+          ><br />
           <label for="video-source-select">Video Source:</label>
-          <select id="video-source-select">
-          </select>          
+          <select id="video-source-select"></select>
         </div>
         <div>
-          <button id="previewSelection" type="button">Preview Selection</button><br/>
+          <button id="previewSelection" type="button">Preview Selection</button
+          ><br />
         </div>
       </div>
-      <br/>
-      <input type="text" id="participant-name" placeholder="please enter your name"/>
-      <button id="joinRoomButton" disabled>
-        join room
-      </button>
+      <br />
+      <br />
+      <div>
+        Choose Preview Selection and enter your name before joining a room
+      </div>
+      <br />
+      <input
+        type="text"
+        id="participant-name"
+        placeholder="please enter your name"
+      />
+      <br />
+      <button id="joinRoomButton" disabled>join room</button>
       <div id="permissionDenied">
-        Please allow access to camera and microphone for demo to work <button id="requestAccess">try again</button>
-      </div>    
+        Please allow access to camera and microphone for demo to work
+        <button id="requestAccess">try again</button>
+      </div>
     </section>
     <section id="VEcontainer">
       <div id="roomContainer"></div>
