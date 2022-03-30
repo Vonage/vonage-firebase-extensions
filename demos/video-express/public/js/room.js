@@ -91,127 +91,127 @@ requestAccessBtn.addEventListener("click", () => {
 
 const startPreview = () => {
   myPreviewVideoEl.innerHTML = "";
-  previewPublisher = new VideoExpress.PreviewPublisher('previewContainer');
+  previewPublisher = new VideoExpress.PreviewPublisher("previewContainer");
   previewPublisher.previewMedia({
-      targetElement: 'myPreviewVideo',
-      publisherProperties: {
-        resolution: '1280x720',
-        [audioSelector.value === "" ? "publishAudio" : "audioSource" ]: audioSelector.value === "" ? false : audioSelector.value,
-        [videoSelector.value === "" ? "publishVideo" : "videoSource" ]: videoSelector.value === "" ? false : videoSelector.value,
-        mirror: false,
-        audioBitrate: 15,
-        audioFallbackEnabled: true,
-      },    
-  });  
-}
+    targetElement: "myPreviewVideo",
+    publisherProperties: {
+      resolution: "1280x720",
+      [audioSelector.value === "" ? "publishAudio" : "audioSource"]:
+        audioSelector.value === "" ? false : audioSelector.value,
+      [videoSelector.value === "" ? "publishVideo" : "videoSource"]:
+        videoSelector.value === "" ? false : videoSelector.value,
+      mirror: false,
+      audioBitrate: 15,
+      audioFallbackEnabled: true,
+    },
+  });
+};
 
-previewSelectionBtn.addEventListener("click", () =>{
-  startPreview();  
+previewSelectionBtn.addEventListener("click", () => {
+  startPreview();
   // joinRoomBtn.disabled = false;
 });
 
-participantNameInput.addEventListener('input', (e) => {
+participantNameInput.addEventListener("input", e => {
   participantName = e.target.value;
-  joinRoomBtn.disabled = participantName === "" ? true : false;
-})
+  joinRoomBtn.disabled = !participantName.length || !previewPublisher;
+});
 
-async function generateToken(){
-  const response = await fetch('',{
-    method: 'POST',
-
-  })
+async function generateToken() {
+  const response = await fetch("", {
+    method: "POST",
+  });
 }
 
-const joinRoom = async() => {
-  console.log("joinRoom room: ",room);
-  if(!room){
-    console.log("create a new room")
+const joinRoom = async () => {
+  console.log("joinRoom room: ", room);
+  if (!room) {
+    console.log("create a new room");
     room = new VideoExpress.Room({
       apiKey: apiKey, // add your OpenTok APIKey
       sessionId: sessionId, // add your OpenTok Session Id
       token: token, // add your OpenTok token
       participantName: participantName,
-      roomContainer: 'roomContainer',
+      roomContainer: "roomContainer",
       managedLayoutOptions: {
-        cameraPublisherContainer: 'myVideo',
+        cameraPublisherContainer: "myVideo",
       },
     });
-
   }
 
   const { camera, screen } = room;
-    
+
   try {
     await room.join({
       // targetElement: 'previewContainer',
       publisherProperties: {
-        resolution: '1280x720',
-        [audioSelector.value === "" ? "publishAudio" : "audioSource" ]: audioSelector.value === "" ? false : audioSelector.value,
-        [videoSelector.value === "" ? "publishVideo" : "videoSource" ]: videoSelector.value === "" ? false : videoSelector.value,
+        resolution: "1280x720",
+        [audioSelector.value === "" ? "publishAudio" : "audioSource"]:
+          audioSelector.value === "" ? false : audioSelector.value,
+        [videoSelector.value === "" ? "publishVideo" : "videoSource"]:
+          videoSelector.value === "" ? false : videoSelector.value,
         mirror: true,
         audioBitrate: 6000,
         audioFallbackEnabled: true,
       },
-    });    
-  } catch (error){
+    });
+  } catch (error) {
     console.error("Error joining room: ", error);
   }
-    
+
   videoStatusEl.innerText = camera.isVideoEnabled() ? "enabled" : "disabled";
   audioStatusEl.innerText = camera.isAudioEnabled() ? "enabled" : "disabled";
-  
 
   const toggleVideo = () => {
-    console.log('camera.isVideoEnabled()',camera.isVideoEnabled());
-    if (camera.isVideoEnabled()){
+    console.log("camera.isVideoEnabled()", camera.isVideoEnabled());
+    if (camera.isVideoEnabled()) {
       camera.disableVideo();
       videoStatusEl.innerText = "disabled";
     } else {
       camera.enableVideo();
       videoStatusEl.innerText = "enabled";
     }
-  }
+  };
 
   videoBtn.addEventListener("click", toggleVideo, false);
 
-
   const toggleAudio = () => {
-    console.log('camera.isAudioEnabled()',camera.isAudioEnabled());
-    if (camera.isAudioEnabled()){
+    console.log("camera.isAudioEnabled()", camera.isAudioEnabled());
+    if (camera.isAudioEnabled()) {
       camera.disableAudio();
       audioStatusEl.innerText = "disabled";
     } else {
       camera.enableAudio();
       audioStatusEl.innerText = "enabled";
     }
-  }
+  };
 
   audioBtn.addEventListener("click", toggleAudio, false);
 
   const toggleLayout = () => {
-    if (layoutStatusEl.innerText === "grid"){
-        room.setLayoutMode("active-speaker");
-        layoutStatusEl.innerText = "active speaker";
+    if (layoutStatusEl.innerText === "grid") {
+      room.setLayoutMode("active-speaker");
+      layoutStatusEl.innerText = "active speaker";
     } else {
-        room.setLayoutMode("grid");
-        layoutStatusEl.innerText = "grid";
-    }  
-  }
+      room.setLayoutMode("grid");
+      layoutStatusEl.innerText = "grid";
+    }
+  };
 
   layoutBtn.addEventListener("click", toggleLayout, false);
 
-  const startScreensharing = () => {    
+  const startScreensharing = () => {
     room.startScreensharing("myScreenshare");
     screenshareStartBtn.style.display = "none";
     screenshareStopBtn.style.display = "block";
-  }
-  
+  };
+
   const stopScreensharing = () => {
     room.stopScreensharing();
     screenshareStopBtn.style.display = "none";
-    screenshareStartBtn.style.display = "block";        
-  }
-  
+    screenshareStartBtn.style.display = "block";
+  };
+
   screenshareStartBtn.addEventListener("click", startScreensharing, false);
 
   screenshareStopBtn.addEventListener("click", stopScreensharing, false);
