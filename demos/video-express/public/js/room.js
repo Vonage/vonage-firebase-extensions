@@ -227,79 +227,85 @@ const joinRoom = async() => {
     veContainerEl.style.display = "none";
     startPreview();
   });
-  
-  screen.on('started', () => {
-    console.log('The screen sharing has started!');
+
+  screen.on("started", () => {
+    console.log("The screen sharing has started!");
     screenshareStartBtn.style.display = "none";
     screenshareStopBtn.style.display = "block";
   });
 
-  screen.on('stopped', () => {
-    console.log('The screen stopped sharing because: ');
+  screen.on("stopped", () => {
+    console.log("The screen stopped sharing because: ");
     screenshareStopBtn.style.display = "none";
-    screenshareStartBtn.style.display = "block";    
+    screenshareStartBtn.style.display = "block";
   });
 
-  room.on('connected', async() => {
-    console.log('room connected!');    
+  room.on("connected", async () => {
+    console.log("room connected!");
   });
 
-  room.on('participantJoined', (participant) => {
-    console.log('participantJoined: ', participant);
-    participant.on('cameraCreated', (cameraSubscriber) => {
-      console.log('Paricipant camera created! ',cameraSubscriber);
+  room.on("participantJoined", participant => {
+    console.log("participantJoined: ", participant);
+    participant.on("cameraCreated", cameraSubscriber => {
+      console.log("Paricipant camera created! ", cameraSubscriber);
     });
-    participant.on('cameraDestroyed', (reason) => {
-      console.log('Paricipant camera destroyed!', reason);
+    participant.on("cameraDestroyed", reason => {
+      console.log("Paricipant camera destroyed!", reason);
     });
-    participant.on('screenCreated', (screenSubscriber) => {
-      console.log('Paricipant Screen created!',screenSubscriber);
+    participant.on("screenCreated", screenSubscriber => {
+      console.log("Paricipant Screen created!", screenSubscriber);
     });
-    participant.on('screenDestroyed', (reason) => {
-      console.log('Paricipant Screen destroyed!',reason);
+    participant.on("screenDestroyed", reason => {
+      console.log("Paricipant Screen destroyed!", reason);
     });
-    participant.on('destroyed', (reason) => {
-      console.log('Paricipant Screen destroyed!',reason);
-    });    
+    participant.on("destroyed", reason => {
+      console.log("Paricipant Screen destroyed!", reason);
+    });
   });
-  
-  room.on('disconnected', () => {
-    console.log('room disconnected!');
+
+  room.on("disconnected", () => {
+    console.log("room disconnected!");
   });
-  room.on('reconnecting', () => {
-    console.log('room reconnecting!');
+  room.on("reconnecting", () => {
+    console.log("room reconnecting!");
   });
-  room.on('reconnected', () => {
-    console.log('room reconnected!');
-  });  
+  room.on("reconnected", () => {
+    console.log("room reconnected!");
+  });
 };
 
 joinRoomBtn.addEventListener("click", async () => {
   joinRoomBtn.disabled = true;
-  db.collection("rooms").doc(roomName).collection("participants").doc(participantName).set({
-    token: ""
-  })
-      .then(() => {
-        console.log("Participant created successfully");
-        // statusDiv.innerHTML = "Database entry created.";
-      })
-      .catch((error) => {
-        console.error("Error creating room: ", error);
-        // statusDiv.innerHTML = "Error creating room!";
+  db.collection("rooms")
+    .doc(roomName)
+    .collection("participants")
+    .doc(participantName)
+    .set({
+      token: "",
+    })
+    .then(() => {
+      console.log("Participant created successfully");
+      // statusDiv.innerHTML = "Database entry created.";
+    })
+    .catch(error => {
+      console.error("Error creating room: ", error);
+      // statusDiv.innerHTML = "Error creating room!";
+      joinRoomBtn.disabled = false;
+    });
+
+  db.collection("rooms")
+    .doc(roomName)
+    .collection("participants")
+    .doc(participantName)
+    .onSnapshot(doc => {
+      if (doc.data().token !== "") {
+        console.log("Current data: ", doc.data());
+        token = doc.data().token;
+        if (previewPublisher) previewPublisher.destroy();
         joinRoomBtn.disabled = false;
-      });
-
-  db.collection("rooms").doc(roomName).collection("participants").doc(participantName)
-      .onSnapshot((doc) => {
-        if (doc.data().token !== ""){
-          console.log("Current data: ", doc.data());
-          token = doc.data().token;
-          previewPublisher.destroy();
-          joinRoomBtn.disabled = false;
-          previewContainerEl.style.display = "none";
-          veContainerEl.style.display = "flex";
-          joinRoom();
-
-        }
-      });
+        previewContainerEl.style.display = "none";
+        veContainerEl.style.display = "flex";
+        joinRoom();
+      }
+    });
 });
