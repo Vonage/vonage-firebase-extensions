@@ -6,14 +6,14 @@
     <title>Vonage Video Express x Firebase Extension</title>
 
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/9.0.2/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app-compat.js"></script>
     <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/9.0.2/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore-compat.js"></script>
     <!--
       initialize the SDK after all desired features are loaded, set useEmulator to false
       to avoid connecting the SDK to running emulators.
     -->
-    <script defer src="/__/firebase/init.js?useEmulator=false"></script>
+    <!-- <script defer src="/__/firebase/init.js?useEmulator=false"></script> -->
 
     <style media="screen">
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; font-size: 30px; }
@@ -33,16 +33,23 @@
         font-size: 30px;
       }
     </style>
-    <script type="module" src="/js/index.js" defer></script>
+    <script type="module" src="./js/index.js" defer></script>
 
   </head>
   <body>
     <div id="container">
-      <div>
+      <div id="config-input-container">
+        firebaseConfig = {
+          <textarea name="textarea" rows="10" cols="50" placeholder="Enter Firebase config here."></textarea>
+        }
+        <button id="create-room">save</button>
+      </div>
+      <div id="room-input-container">
         <input type="text" id="room-input" placeholder="enter room name to create"/>
         <button id="create-room">create</button>
         <div id="status"></div>
       </div>
     </div>
   </body>
+
 </html>

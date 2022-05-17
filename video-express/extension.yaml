@@ -69,6 +69,15 @@ resources:
         eventType: providers/cloud.firestore/eventTypes/document.create
         resource: projects/${PROJECT_ID}/databases/(default)/documents/rooms/{roomId}/participants/{participantName}
 
+  - name: demo
+    type: firebaseextensions.v1beta.function
+    description: >-
+      Serves a demo application.
+    properties:
+      location: ${LOCATION}
+      runtime: nodejs14
+      httpsTrigger: {}
+
 params:
   - param: LOCATION
     label: Cloud Functions deployment location

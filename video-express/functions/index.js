@@ -6,6 +6,38 @@ const OpenTok = require("opentok");
 
 const db = admin.firestore();
 
+
+// for demo application
+
+const express = require("express");
+const cors = require("cors");
+const app = express();
+app.use(cors({ origin: true }));
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + "/demo/index.html");
+});
+
+app.get('/room.html', (req, res) => {
+  res.sendFile(__dirname + "/demo/room.html");
+});
+
+app.get('/js/room.js', (req, res) => {
+  res.sendFile(__dirname + "/demo/js/room.js");
+});
+
+app.get('/js/index.js', (req, res) => {
+  res.sendFile(__dirname + "/demo/js/index.js");
+});
+
+app.get('/style.css', (req, res) => {
+  res.sendFile(__dirname + "/demo/style.css");
+});
+
+exports.demo = functions.handler.https.onRequest(app);
+
+/////////////////////
+
 async function initializeOpenTok(){
     console.log("initializeOpenTok");
     return new OpenTok(process.env.VONAGE_API_KEY, process.env.VONAGE_API_SECRET);

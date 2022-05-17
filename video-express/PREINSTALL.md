@@ -4,6 +4,8 @@ This extension will create rooms `/rooms/{roomId}` in Firestore and with Functio
 
 ### Things you will need:
 
+- Firebase Functions and Firestore must be enabled in your project's console. The extension will need these to function properly.
+
 - a Vonage Video Account. If you don't have one, you can sign up at the [Video API Dashboard](https://tokbox.com/account).
 - Project API Key and Secret. In the left-side menu of the [dashboard](https://tokbox.com/account), click `Projects` and select a previous project or create a new one to view the API Key and Secret.
   

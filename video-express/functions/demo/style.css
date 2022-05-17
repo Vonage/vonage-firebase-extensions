@@ -1,0 +1,92 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: sans-serif;
+    margin: 2em 1em;
+    line-height: 1.5em;
+    margin: 0;
+  }
+  
+  footer {
+    margin-top: 3em;
+    padding-top: 1.5em;
+    border-top: 1px solid lightgrey;
+  }
+  
+  main {
+    display: flex;
+    align-items: start;
+    justify-content: space-around;
+  }
+  
+  /* Assuming the name of the PreviewPublisher's container is previewContainer */
+  #previewContainer {
+    display: none;
+    /*display: flex;*/
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Assuming the name of the Room's container is roomContainer */
+  #roomContainer {
+    width: 100vw;
+    height: calc(100vh - 90px);
+    background-color: #ddd;
+    position: relative;
+  }
+  
+  #roomContianer > .OT_publisher {
+    position: relative;
+  }
+  
+  #VEcontainer {
+    display: none;
+  }
+  
+  #mySection {
+    width: 320px;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+  #screenshareStopButton {
+    display: none;
+  }
+  
+  #select-devices {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #permissionDenied {
+    display: none;
+  }
+  
+  #myPreviewVideo, #myVideo {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+  }
+  
+  #logo {
+    width: 100px;
+    height: 100%;
+  }
+
+#config-input-container {
+  text-align: left;
+}
+#config-input {
+  margin-left: 30px;
+}

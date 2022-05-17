@@ -6,9 +6,12 @@ To get an overview and reference for the API, visit the [Video Express documenta
 
 ### Demo application
 
+
+link to demo: [${function:demo.url}/](${function:demo.url}/)
+
 To get started quickly, there is a demo application so that you can take a look at some code and deploy to Firebase hosting to see the Vonage Video Express in action.
 
-The code can be found in this [GitHub repo]().
+The code can be found in this [GitHub repo](https://github.com/Vonage/vonage-firebase-extensions/tree/main/demos).
 
 The Vonage CLI can be used to scaffold the demo application and be deployed to Firebase hosting.
 
