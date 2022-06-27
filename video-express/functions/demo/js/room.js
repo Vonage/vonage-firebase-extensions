@@ -39,8 +39,8 @@ let participantName;
 let db;
 let firebaseConfig
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js";
+import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js";
 
 console.log("window.location.search: ", window.location.search);
 const roomName = window.location.search.split("=")[1];
