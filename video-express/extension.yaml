@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name: firestore-vonage-video-express
-version: 0.1.0
+version: 0.2.0
 specVersion: v1beta
 
 displayName: Create Multiparty Video Calls with Vonage Video Express
