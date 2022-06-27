@@ -84,9 +84,9 @@
     height: 100%;
   }
 
-#config-input-container {
-  text-align: left;
-}
-#config-input {
-  margin-left: 30px;
-}
+  #config-input-container {
+    text-align: left;
+  }
+  #config-input {
+    margin-left: 30px;
+  }
