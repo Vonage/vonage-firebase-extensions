@@ -13,10 +13,6 @@ To get started quickly, there is a demo application so that you can take a look 
 
 The code can be found in this [GitHub repo](https://github.com/Vonage/vonage-firebase-extensions/tree/main/demos).
 
-The Vonage CLI can be used to scaffold the demo application and be deployed to Firebase hosting.
-
-**INSTRUCTIONS GO HERE**
-
 ### More resources
 
 - blog post: [Video Express Is Here and Why It Is Awesome!](https://learn.vonage.com/blog/2021/09/23/video-express-is-here-and-why-it%E2%80%99s-awesome/)
