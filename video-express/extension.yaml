@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name: firestore-vonage-video-express
-version: 0.1.0
+version: 0.2.1
 specVersion: v1beta
 
 displayName: Create Multiparty Video Calls with Vonage Video Express
@@ -68,6 +68,15 @@ resources:
       eventTrigger:
         eventType: providers/cloud.firestore/eventTypes/document.create
         resource: projects/${PROJECT_ID}/databases/(default)/documents/rooms/{roomId}/participants/{participantName}
+
+  - name: demo
+    type: firebaseextensions.v1beta.function
+    description: >-
+      Serves a demo application.
+    properties:
+      location: ${LOCATION}
+      runtime: nodejs14
+      httpsTrigger: {}
 
 params:
   - param: LOCATION

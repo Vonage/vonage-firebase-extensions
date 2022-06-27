@@ -103,10 +103,10 @@ const loadAVSources = async() => {
       }
     });
     audioSelector.innerHTML += `<option value="">No audio</option>`;
-    videoSelector.innerHTML += `<option value="">No video</option>`;
+    videoSelector.innerHTML += `<option value="">No video</option>`;    
   } catch (error) {
     console.error("error loading AV sources: ", error)
-  }
+  }  
 }
 
 loadAVSources();
@@ -120,20 +120,20 @@ const startPreview = () => {
   myPreviewVideoEl.innerHTML = "";
   previewPublisher = new VideoExpress.PreviewPublisher('previewContainer');
   previewPublisher.previewMedia({
-    targetElement: 'myPreviewVideo',
-    publisherProperties: {
-      resolution: '1280x720',
-      [audioSelector.value === "" ? "publishAudio" : "audioSource" ]: audioSelector.value === "" ? false : audioSelector.value,
-      [videoSelector.value === "" ? "publishVideo" : "videoSource" ]: videoSelector.value === "" ? false : videoSelector.value,
-      mirror: false,
-      audioBitrate: 15,
-      audioFallbackEnabled: true,
-    },
-  });
+      targetElement: 'myPreviewVideo',
+      publisherProperties: {
+        resolution: '1280x720',
+        [audioSelector.value === "" ? "publishAudio" : "audioSource" ]: audioSelector.value === "" ? false : audioSelector.value,
+        [videoSelector.value === "" ? "publishVideo" : "videoSource" ]: videoSelector.value === "" ? false : videoSelector.value,
+        mirror: false,
+        audioBitrate: 15,
+        audioFallbackEnabled: true,
+      },    
+  });  
 }
 
 previewSelectionBtn.addEventListener("click", () =>{
-  startPreview();
+  startPreview();  
   // joinRoomBtn.disabled = false;
 });
 
@@ -159,7 +159,7 @@ const joinRoom = async() => {
   }
 
   const { camera, screen } = room;
-
+    
   try {
     await room.join({
       // targetElement: 'previewContainer',
@@ -171,11 +171,11 @@ const joinRoom = async() => {
         audioBitrate: 6000,
         audioFallbackEnabled: true,
       },
-    });
+    });    
   } catch (error){
     console.error("Error joining room: ", error);
   }
-
+    
   videoStatusEl.innerText = camera.isVideoEnabled() ? "enabled" : "disabled";
   audioStatusEl.innerText = camera.isAudioEnabled() ? "enabled" : "disabled";
 
@@ -207,28 +207,28 @@ const joinRoom = async() => {
 
   const toggleLayout = () => {
     if (layoutStatusEl.innerText === "grid"){
-      room.setLayoutMode("active-speaker");
-      layoutStatusEl.innerText = "active speaker";
+        room.setLayoutMode("active-speaker");
+        layoutStatusEl.innerText = "active speaker";
     } else {
-      room.setLayoutMode("grid");
-      layoutStatusEl.innerText = "grid";
-    }
+        room.setLayoutMode("grid");
+        layoutStatusEl.innerText = "grid";
+    }  
   }
 
   layoutBtn.addEventListener("click", toggleLayout, false);
 
-  const startScreensharing = () => {
+  const startScreensharing = () => {    
     room.startScreensharing("myScreenshare");
     screenshareStartBtn.style.display = "none";
     screenshareStopBtn.style.display = "block";
   }
-
+  
   const stopScreensharing = () => {
     room.stopScreensharing();
     screenshareStopBtn.style.display = "none";
-    screenshareStartBtn.style.display = "block";
+    screenshareStartBtn.style.display = "block";        
   }
-
+  
   screenshareStartBtn.addEventListener("click", startScreensharing, false);
 
   screenshareStopBtn.addEventListener("click", stopScreensharing, false);
@@ -244,7 +244,7 @@ const joinRoom = async() => {
     veContainerEl.style.display = "none";
     startPreview();
   });
-
+  
   screen.on('started', () => {
     console.log('The screen sharing has started!');
     screenshareStartBtn.style.display = "none";
@@ -254,11 +254,11 @@ const joinRoom = async() => {
   screen.on('stopped', () => {
     console.log('The screen stopped sharing because: ');
     screenshareStopBtn.style.display = "none";
-    screenshareStartBtn.style.display = "block";
+    screenshareStartBtn.style.display = "block";    
   });
 
   room.on('connected', async() => {
-    console.log('room connected!');
+    console.log('room connected!');    
   });
 
   room.on('participantJoined', (participant) => {
@@ -277,7 +277,7 @@ const joinRoom = async() => {
     });
     participant.on('destroyed', (reason) => {
       console.log('Paricipant Screen destroyed!',reason);
-    });
+    });    
   });
 
   room.on('disconnected', () => {
@@ -290,7 +290,7 @@ const joinRoom = async() => {
 
   room.on('reconnected', () => {
     console.log('room reconnected!');
-  });
+  });  
 };
 
 joinRoomBtn.addEventListener("click", async () => {
