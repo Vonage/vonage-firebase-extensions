@@ -36,8 +36,6 @@ let sessionId;
 let token;
 let participantName;
 
-// const db = firebase.firestore();
-
 let db;
 let firebaseConfig
 
@@ -55,22 +53,6 @@ async function initFirebase(){
   if (db){
     configInputContainer.style.display = "none";
     previewContainerEl.style.display = "flex";
-    // v.8
-    // firebase.firestore().collection("rooms").doc(roomName).get()
-    // .then((doc) => {
-    //     if(doc.exists) {
-    //         console.log("Room data: ", doc.data());
-    //         apiKey = doc.data().apiKey;
-    //         sessionId = doc.data().sessionId;
-    //     } else {
-    //         console.error("Room does not exist!")
-    //     }
-    // }).catch((error) => {
-    //     console.error("Error getting room data: ",error);
-    // });
-
-    // v.9
-
     try {
       const docSnap = await getDoc(doc(db, "rooms", roomName));
       if (docSnap.exists()) {
@@ -84,8 +66,6 @@ async function initFirebase(){
     } catch (error) {
       console.error("Error getting room data: ",error);
     }
-
-
   }
 }
 
@@ -98,29 +78,13 @@ saveConfigBtn.addEventListener("click", () => {
     console.log(`firebaseConfig: `, firebaseConfig);
     initFirebase();
   }
-  // console.log("initializeApp:", initializeApp)
 });
-
-
-// firebase.firestore().collection("rooms").doc(roomName).get()
-// .then((doc) => {
-//     if(doc.exists) {
-//         console.log("Room data: ", doc.data());
-//         apiKey = doc.data().apiKey;
-//         sessionId = doc.data().sessionId;
-//     } else {
-//         console.error("Room does not exist!")
-//     }
-// }).catch((error) => {
-//     console.error("Error getting room data: ",error);
-// });
 
 const loadAVSources = async() => {
   if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
     console.log("enumerateDevices() not supported.");
     return;
   }
-  
   try {
     // Need to ask permission in order to get access to the devices to be able to list them in the dropdowns.
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
@@ -178,13 +142,6 @@ participantNameInput.addEventListener('input', (e) => {
   joinRoomBtn.disabled = participantName === "" ? true : false;
 })
 
-async function generateToken(){
-  const response = await fetch('',{
-    method: 'POST',
-
-  })
-}
-
 const joinRoom = async() => {
   console.log("joinRoom room: ",room);
   if(!room){
@@ -199,7 +156,6 @@ const joinRoom = async() => {
         cameraPublisherContainer: 'myVideo',
       },
     });
-
   }
 
   const { camera, screen } = room;
@@ -222,7 +178,6 @@ const joinRoom = async() => {
     
   videoStatusEl.innerText = camera.isVideoEnabled() ? "enabled" : "disabled";
   audioStatusEl.innerText = camera.isAudioEnabled() ? "enabled" : "disabled";
-  
 
   const toggleVideo = () => {
     console.log('camera.isVideoEnabled()',camera.isVideoEnabled());
@@ -236,7 +191,6 @@ const joinRoom = async() => {
   }
 
   videoBtn.addEventListener("click", toggleVideo, false);
-
 
   const toggleAudio = () => {
     console.log('camera.isAudioEnabled()',camera.isAudioEnabled());
@@ -325,13 +279,15 @@ const joinRoom = async() => {
       console.log('Paricipant Screen destroyed!',reason);
     });    
   });
-  
+
   room.on('disconnected', () => {
     console.log('room disconnected!');
   });
+
   room.on('reconnecting', () => {
     console.log('room reconnecting!');
   });
+
   room.on('reconnected', () => {
     console.log('room reconnected!');
   });  
@@ -339,41 +295,10 @@ const joinRoom = async() => {
 
 joinRoomBtn.addEventListener("click", async () => {
   joinRoomBtn.disabled = true;
-
-  // v.8
-  // db.collection("rooms").doc(roomName).collection("participants").doc(participantName).set({
-  //   token: ""
-  // })
-  //     .then(() => {
-  //       console.log("Participant created successfully");
-  //       // statusDiv.innerHTML = "Database entry created.";
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error creating room: ", error);
-  //       // statusDiv.innerHTML = "Error creating room!";
-  //       joinRoomBtn.disabled = false;
-  //     });
-  //
-  // db.collection("rooms").doc(roomName).collection("participants").doc(participantName)
-  //     .onSnapshot((doc) => {
-  //       if (doc.data().token !== ""){
-  //         console.log("Current data: ", doc.data());
-  //         token = doc.data().token;
-  //         previewPublisher.destroy();
-  //         joinRoomBtn.disabled = false;
-  //         previewContainerEl.style.display = "none";
-  //         veContainerEl.style.display = "flex";
-  //         joinRoom();
-  //
-  //       }
-  //     });
-
-  // v.9
   try {
     await setDoc(doc(db, "rooms", roomName, "participants", participantName), {
       token: "",
     });
-
     const unsub = onSnapshot(doc(db, "rooms", roomName, "participants", participantName), (docSnap) => {
       if (docSnap.data().token !== ""){
         console.log("Current data: ", docSnap.data());
@@ -391,5 +316,4 @@ joinRoomBtn.addEventListener("click", async () => {
     console.error("Error joining participant: ", error);
     joinRoomBtn.disabled = false;
   }
-
 });

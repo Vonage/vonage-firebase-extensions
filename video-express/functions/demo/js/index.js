@@ -13,7 +13,6 @@ let firebaseConfig
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
 import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
 
-
 function initFirebase(){
     const app = initializeApp(firebaseConfig);
     db = getFirestore(app);
@@ -33,7 +32,6 @@ saveConfigBtn.addEventListener("click", () => {
         console.log(`firebaseConfig: `, firebaseConfig);
         initFirebase();
     }
-    // console.log("initializeApp:", initializeApp)
 });
 
 createRoomBtn.addEventListener("click", async()=> {
@@ -41,39 +39,11 @@ createRoomBtn.addEventListener("click", async()=> {
     const roomName = roomInput.value.replaceAll(' ', '_');
     statusDiv.innerHTML = "Creating the room...";
     createRoomBtn.disabled = true;
-
-    // v.8
-    // db.collection("rooms").doc(roomName).set({
-    //     apiKey: "",
-    //     sessionId: ""
-    // })
-    // .then(() => {
-    //     console.log("Room created successfully");
-    //     statusDiv.innerHTML = "Database entry created.";
-    // })
-    // .catch((error) => {
-    //     console.error("Error creating room: ", error);
-    //     statusDiv.innerHTML = "Error creating room!";
-    //     createRoomBtn.disabled = false;
-    // });
-
-    // db.collection("rooms").doc(roomName)
-    // .onSnapshot((doc) => {
-    //     if (doc.data().sessionId !== ""){
-    //         console.log("Current data: ", doc.data());
-    //         statusDiv.innerHTML = `Room created! <br/>Link: <a href="${window.location}room.html?name=${roomName}" target="_blank">${window.location}room.html?name=${roomName}</a>`;
-    //         roomInput.value = "";
-    //         createRoomBtn.disabled = false;
-    //     }
-    // });
-
-    // v.9
     try {
         await setDoc(doc(db, "rooms", roomName), {
             apiKey: "",
             sessionId: ""
         });
-
         const unsub = onSnapshot(doc(db, "rooms", roomName), (doc) => {
             console.log("Current data: ", doc.data());
             if (doc.data().sessionId !== ""){
@@ -88,5 +58,4 @@ createRoomBtn.addEventListener("click", async()=> {
         statusDiv.innerHTML = "Error creating room!";
         createRoomBtn.disabled = false;
     }
-
 });

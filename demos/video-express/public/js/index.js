@@ -8,42 +8,54 @@ const createRoomBtn = document.querySelector("#create-room");
 const statusDiv = document.querySelector("#status");
 
 let db;
+let firebaseConfig
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
 
 function initFirebase(){
-    db = firebase.firestore()
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    console.log('db: ', db);
+    if (db){
+        configInputContainer.style.display = "none";
+        roomInputContainer.style.display = "block";
+    }
 }
 
 saveConfigBtn.addEventListener("click", () => {
+    console.log("config: ", configInput.innerText);
     console.log("config value: ", configInput.value);
+    if (configInput.value){
+        const configInputString = `{${configInput.value}}`.replace(/([{,])(\s*)([A-Za-z0-9_\-]+?)\s*:/g, '$1"$3":');
+        firebaseConfig = JSON.parse(configInputString);
+        console.log(`firebaseConfig: `, firebaseConfig);
+        initFirebase();
+    }
 });
 
-createRoomBtn.addEventListener("click", ()=> {
+createRoomBtn.addEventListener("click", async()=> {
     console.log("room input name: ", roomInput.value);
     const roomName = roomInput.value.replaceAll(' ', '_');
     statusDiv.innerHTML = "Creating the room...";
     createRoomBtn.disabled = true;
-
-    db.collection("rooms").doc(roomName).set({
-        apiKey: "",
-        sessionId: ""
-    })
-    .then(() => {
-        console.log("Room created successfully");
-        statusDiv.innerHTML = "Database entry created.";
-    })
-    .catch((error) => {
-        console.error("Error creating room: ", error);
-        statusDiv.innerHTML = "Error creating room!";                
-        createRoomBtn.disabled = false;
-    });
-
-    db.collection("rooms").doc(roomName)
-    .onSnapshot((doc) => {
-        if (doc.data().sessionId !== ""){
+    try {
+        await setDoc(doc(db, "rooms", roomName), {
+            apiKey: "",
+            sessionId: ""
+        });
+        const unsub = onSnapshot(doc(db, "rooms", roomName), (doc) => {
             console.log("Current data: ", doc.data());
-            statusDiv.innerHTML = `Room created! <br/>Link: <a href="${window.location}room.html?name=${roomName}" target="_blank">${window.location}room.html?name=${roomName}</a>`;
-            roomInput.value = "";    
-            createRoomBtn.disabled = false;    
-        }
-    });
+            if (doc.data().sessionId !== ""){
+                console.log("Current data: ", doc.data());
+                statusDiv.innerHTML = `Room created! <br/>Link: <a href="${window.location}room.html?name=${roomName}" target="_blank">${window.location}room.html?name=${roomName}</a>`;
+                roomInput.value = "";
+                createRoomBtn.disabled = false;
+            }
+        });
+    } catch (error) {
+        console.error("Error creating room: ", error);
+        statusDiv.innerHTML = "Error creating room!";
+        createRoomBtn.disabled = false;
+    }
 });

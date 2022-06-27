@@ -5,6 +5,9 @@
 
 // Get reference to HTML elements
 const previewContainerEl = document.querySelector('#previewContainer');
+const configInputContainer = document.querySelector("#config-input-container");
+const configInput = document.querySelector("#config-input");
+const saveConfigBtn = document.querySelector("#save-config");
 const selectDevices = document.querySelector('#select-devices');
 const videoChat = document.querySelector('#video-chat');
 const audioSelector = document.querySelector('#audio-source-select');
@@ -33,23 +36,48 @@ let sessionId;
 let token;
 let participantName;
 
-const db = firebase.firestore();
+let db;
+let firebaseConfig
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
 
 console.log("window.location.search: ", window.location.search);
 const roomName = window.location.search.split("=")[1];
 console.log("roomName: ",roomName);
 
-firebase.firestore().collection("rooms").doc(roomName).get()
-.then((doc) => {
-    if(doc.exists) {
-        console.log("Room data: ", doc.data());
-        apiKey = doc.data().apiKey;
-        sessionId = doc.data().sessionId;
-    } else {
-        console.error("Room does not exist!")
+async function initFirebase(){
+  const app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  console.log('db: ', db);
+  if (db){
+    configInputContainer.style.display = "none";
+    previewContainerEl.style.display = "flex";
+    try {
+      const docSnap = await getDoc(doc(db, "rooms", roomName));
+      if (docSnap.exists()) {
+        console.log("Room data: ", docSnap.data());
+        apiKey = docSnap.data().apiKey;
+        sessionId = docSnap.data().sessionId;
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error("Error getting room data: ",error);
     }
-}).catch((error) => {
-    console.error("Error getting room data: ",error);
+  }
+}
+
+saveConfigBtn.addEventListener("click", () => {
+  console.log("config: ", configInput.innerText);
+  console.log("config value: ", configInput.value);
+  if (configInput.value){
+    const configInputString = `{${configInput.value}}`.replace(/([{,])(\s*)([A-Za-z0-9_\-]+?)\s*:/g, '$1"$3":');
+    firebaseConfig = JSON.parse(configInputString);
+    console.log(`firebaseConfig: `, firebaseConfig);
+    initFirebase();
+  }
 });
 
 const loadAVSources = async() => {
@@ -57,7 +85,6 @@ const loadAVSources = async() => {
     console.log("enumerateDevices() not supported.");
     return;
   }
-  
   try {
     // Need to ask permission in order to get access to the devices to be able to list them in the dropdowns.
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
@@ -76,10 +103,10 @@ const loadAVSources = async() => {
       }
     });
     audioSelector.innerHTML += `<option value="">No audio</option>`;
-    videoSelector.innerHTML += `<option value="">No video</option>`;    
+    videoSelector.innerHTML += `<option value="">No video</option>`;
   } catch (error) {
     console.error("error loading AV sources: ", error)
-  }  
+  }
 }
 
 loadAVSources();
@@ -93,20 +120,20 @@ const startPreview = () => {
   myPreviewVideoEl.innerHTML = "";
   previewPublisher = new VideoExpress.PreviewPublisher('previewContainer');
   previewPublisher.previewMedia({
-      targetElement: 'myPreviewVideo',
-      publisherProperties: {
-        resolution: '1280x720',
-        [audioSelector.value === "" ? "publishAudio" : "audioSource" ]: audioSelector.value === "" ? false : audioSelector.value,
-        [videoSelector.value === "" ? "publishVideo" : "videoSource" ]: videoSelector.value === "" ? false : videoSelector.value,
-        mirror: false,
-        audioBitrate: 15,
-        audioFallbackEnabled: true,
-      },    
-  });  
+    targetElement: 'myPreviewVideo',
+    publisherProperties: {
+      resolution: '1280x720',
+      [audioSelector.value === "" ? "publishAudio" : "audioSource" ]: audioSelector.value === "" ? false : audioSelector.value,
+      [videoSelector.value === "" ? "publishVideo" : "videoSource" ]: videoSelector.value === "" ? false : videoSelector.value,
+      mirror: false,
+      audioBitrate: 15,
+      audioFallbackEnabled: true,
+    },
+  });
 }
 
 previewSelectionBtn.addEventListener("click", () =>{
-  startPreview();  
+  startPreview();
   // joinRoomBtn.disabled = false;
 });
 
@@ -114,13 +141,6 @@ participantNameInput.addEventListener('input', (e) => {
   participantName = e.target.value;
   joinRoomBtn.disabled = participantName === "" ? true : false;
 })
-
-async function generateToken(){
-  const response = await fetch('',{
-    method: 'POST',
-
-  })
-}
 
 const joinRoom = async() => {
   console.log("joinRoom room: ",room);
@@ -136,11 +156,10 @@ const joinRoom = async() => {
         cameraPublisherContainer: 'myVideo',
       },
     });
-
   }
 
   const { camera, screen } = room;
-    
+
   try {
     await room.join({
       // targetElement: 'previewContainer',
@@ -152,14 +171,13 @@ const joinRoom = async() => {
         audioBitrate: 6000,
         audioFallbackEnabled: true,
       },
-    });    
+    });
   } catch (error){
     console.error("Error joining room: ", error);
   }
-    
+
   videoStatusEl.innerText = camera.isVideoEnabled() ? "enabled" : "disabled";
   audioStatusEl.innerText = camera.isAudioEnabled() ? "enabled" : "disabled";
-  
 
   const toggleVideo = () => {
     console.log('camera.isVideoEnabled()',camera.isVideoEnabled());
@@ -173,7 +191,6 @@ const joinRoom = async() => {
   }
 
   videoBtn.addEventListener("click", toggleVideo, false);
-
 
   const toggleAudio = () => {
     console.log('camera.isAudioEnabled()',camera.isAudioEnabled());
@@ -190,28 +207,28 @@ const joinRoom = async() => {
 
   const toggleLayout = () => {
     if (layoutStatusEl.innerText === "grid"){
-        room.setLayoutMode("active-speaker");
-        layoutStatusEl.innerText = "active speaker";
+      room.setLayoutMode("active-speaker");
+      layoutStatusEl.innerText = "active speaker";
     } else {
-        room.setLayoutMode("grid");
-        layoutStatusEl.innerText = "grid";
-    }  
+      room.setLayoutMode("grid");
+      layoutStatusEl.innerText = "grid";
+    }
   }
 
   layoutBtn.addEventListener("click", toggleLayout, false);
 
-  const startScreensharing = () => {    
+  const startScreensharing = () => {
     room.startScreensharing("myScreenshare");
     screenshareStartBtn.style.display = "none";
     screenshareStopBtn.style.display = "block";
   }
-  
+
   const stopScreensharing = () => {
     room.stopScreensharing();
     screenshareStopBtn.style.display = "none";
-    screenshareStartBtn.style.display = "block";        
+    screenshareStartBtn.style.display = "block";
   }
-  
+
   screenshareStartBtn.addEventListener("click", startScreensharing, false);
 
   screenshareStopBtn.addEventListener("click", stopScreensharing, false);
@@ -227,7 +244,7 @@ const joinRoom = async() => {
     veContainerEl.style.display = "none";
     startPreview();
   });
-  
+
   screen.on('started', () => {
     console.log('The screen sharing has started!');
     screenshareStartBtn.style.display = "none";
@@ -237,11 +254,11 @@ const joinRoom = async() => {
   screen.on('stopped', () => {
     console.log('The screen stopped sharing because: ');
     screenshareStopBtn.style.display = "none";
-    screenshareStartBtn.style.display = "block";    
+    screenshareStartBtn.style.display = "block";
   });
 
   room.on('connected', async() => {
-    console.log('room connected!');    
+    console.log('room connected!');
   });
 
   room.on('participantJoined', (participant) => {
@@ -260,46 +277,43 @@ const joinRoom = async() => {
     });
     participant.on('destroyed', (reason) => {
       console.log('Paricipant Screen destroyed!',reason);
-    });    
+    });
   });
-  
+
   room.on('disconnected', () => {
     console.log('room disconnected!');
   });
+
   room.on('reconnecting', () => {
     console.log('room reconnecting!');
   });
+
   room.on('reconnected', () => {
     console.log('room reconnected!');
-  });  
+  });
 };
 
 joinRoomBtn.addEventListener("click", async () => {
   joinRoomBtn.disabled = true;
-  db.collection("rooms").doc(roomName).collection("participants").doc(participantName).set({
-    token: ""
-  })
-      .then(() => {
-        console.log("Participant created successfully");
-        // statusDiv.innerHTML = "Database entry created.";
-      })
-      .catch((error) => {
-        console.error("Error creating room: ", error);
-        // statusDiv.innerHTML = "Error creating room!";
-        joinRoomBtn.disabled = false;
-      });
-
-  db.collection("rooms").doc(roomName).collection("participants").doc(participantName)
-      .onSnapshot((doc) => {
-        if (doc.data().token !== ""){
-          console.log("Current data: ", doc.data());
-          token = doc.data().token;
+  try {
+    await setDoc(doc(db, "rooms", roomName, "participants", participantName), {
+      token: "",
+    });
+    const unsub = onSnapshot(doc(db, "rooms", roomName, "participants", participantName), (docSnap) => {
+      if (docSnap.data().token !== ""){
+        console.log("Current data: ", docSnap.data());
+        token = docSnap.data().token;
+        if (previewPublisher){
           previewPublisher.destroy();
-          joinRoomBtn.disabled = false;
-          previewContainerEl.style.display = "none";
-          veContainerEl.style.display = "flex";
-          joinRoom();
-
         }
-      });
+        joinRoomBtn.disabled = false;
+        previewContainerEl.style.display = "none";
+        veContainerEl.style.display = "flex";
+        joinRoom();
+      }
+    });
+  } catch (error) {
+    console.error("Error joining participant: ", error);
+    joinRoomBtn.disabled = false;
+  }
 });
