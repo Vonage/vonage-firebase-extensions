@@ -2,7 +2,7 @@
 
 ## Summary
 
-With this [Firebase Extensions](https://firebase.google.com/docs/extensions), quickly build sophisticated live video apps with many participants using the [Vonage Video Express](https://tokbox.com/developer/video-express/).
+With this [Firebase Extension](https://firebase.google.com/docs/extensions), quickly build sophisticated live video apps with many participants using the [Vonage Video Express](https://tokbox.com/developer/video-express/).
 
 ## Installation
 
