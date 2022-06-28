@@ -5,4 +5,4 @@ Vonage offers [Communications APIs](https://developer.vonage.com/) that help you
 - Create Multiparty Video Calls with Vonage Video Express
 [[source code](https://github.com/Vonage/vonage-firebase-extensions/tree/main/video-express)]
 
-Going to give an our Vonage Firebase Extensions a try? We welcome your feedback on the [Vonage Community Slack](https://developer.vonage.com/community/slack). 
+Going to give our Vonage Firebase Extensions a try? We welcome your feedback on the [Vonage Community Slack](https://developer.vonage.com/community/slack). 
