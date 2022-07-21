@@ -76,7 +76,7 @@ exports.createRoom = functions.handler.firestore.document
             },{merge: true})
             .then(()=>{
                 console.log("Room successfully created!");
-                return {status: 200, text: "woohoo"};
+                return {status: 200, text: "Room successfully created!"};
             })
             .catch((error) => {
                 console.error("Error creating room: ", error);
@@ -110,11 +110,11 @@ exports.generateToken = functions.handler.firestore.document
                         token: token
                     },{merge: true})
                     .then(()=>{
-                        console.log("Room successfully created!");
-                        return {status: 200, text: "Room successfully created!"};
+                        console.log("Token successfully created!");
+                        return {status: 200, text: "Token successfully created!"};
                     })
                     .catch((error) => {
-                        console.error("Error creating room: ", error);
+                        console.error("Error creating token: ", error);
                         return {status: 500, text: error};
                     });
                 }

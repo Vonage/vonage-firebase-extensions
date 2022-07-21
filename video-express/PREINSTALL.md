@@ -4,7 +4,7 @@ This extension will create rooms `/rooms/{roomId}` in Firestore and with Functio
 
 ### Things you will need:
 
-- Firebase Functions and Firestore must be enabled in your project's console. The extension will need these to function properly.
+- Firebase [Functions] and [Firestore](https://firebase.google.com/docs/firestore/quickstart) must be enabled in your project's console. The extension will need these to function properly.
 
 - a Vonage Video Account. If you don't have one, you can sign up at the [Video API Dashboard](https://tokbox.com/account).
 
@@ -17,3 +17,12 @@ This extension will create rooms `/rooms/{roomId}` in Firestore and with Functio
   
   ![Screenshot of account add-ons dashboard](./account-add-ons-screenshot.jpg)
 
+### Billing:
+
+To install an extension, your project must be on the [Blaze (pay as you go) plan](https://firebase.google.com/pricing)
+
+- You will be charged a small amount (typically around $0.01/month) for the Firebase resources required by this extension (even if it is not used).
+- This extension uses other Firebase, which have associated charges if you exceed the service’s no-cost tier:
+  - Cloud Firestore
+  - Cloud Functions (Node.js 10+ runtime. [See FAQs](https://firebase.google.com/support/faq#extensions-pricing))
+- This extension also uses the Vonage Video API which has a monthly charge. [See Pricing](https://www.vonage.com/communications-apis/video/pricing/)

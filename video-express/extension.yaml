@@ -16,7 +16,7 @@ name: firestore-vonage-video-express
 version: 0.2.1
 specVersion: v1beta
 
-displayName: Create Multiparty Video Calls with Vonage Video Express
+displayName: Create Multiparty Video Calls
 description: Quickly build sophisticated live video apps with many participants.
 
 license: Apache-2.0
@@ -31,11 +31,10 @@ author:
 
 contributors:
   - authorName: Dwane Hemmings
+    email: dwane.hemmings@vonage.com
     url: https://github.com/conshus
-  - authorName: Firebase
-    url: https://firebase.google.com
 
-billingRequired: true # this extension makes requests to a third party API (Vonage)
+billingRequired: true # this extension makes requests to a third party API (Vonage) and Firebase Functions
 
 externalServices:
   - name: Vonage
