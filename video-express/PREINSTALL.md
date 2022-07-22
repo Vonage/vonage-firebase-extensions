@@ -1,10 +1,10 @@
 Use this extension to quickly add multiparty video chats to your application using the [Vonage Video Express](https://tokbox.com/developer/video-express/).
 
-This extension will create rooms `/rooms/{roomId}` in Firestore and with Functions, generate credentials needed to participate in the video chats.
+This extension will create rooms `/rooms/{roomId}` in Cloud Firestore and with Cloud Functions, generate credentials needed to participate in the video chats.
 
 ### Things you will need:
 
-- Firebase [Functions] and [Firestore](https://firebase.google.com/docs/firestore/quickstart) must be enabled in your project's console. The extension will need these to function properly.
+- Firebase [Cloud Functions](https://console.firebase.google.com/project/_/functions) and [Cloud Firestore](https://console.firebase.google.com/project/_/firestore) must be enabled in your project's console. The extension will need these to function properly.
 
 - a Vonage Video Account. If you don't have one, you can sign up at the [Video API Dashboard](https://tokbox.com/account).
 

@@ -47,7 +47,7 @@ When the `join room` button is clicked, a new Cloud Firestore document is set un
 When there is a document created in the `participants` collection, the Cloud Function `generateToken` will run and then:
 - generate the token needed for a person to join the video chat using the OpenTok (Vonage Video) SDK
 - set the `token` value
-- return a status if the the Cloud Function was a success of if an error occurred.
+- return a status if the Cloud Function was a success of if an error occurred.
 
 The same steps are repeated for every person that joins the video chat.
 
