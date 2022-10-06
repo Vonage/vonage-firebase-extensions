@@ -1,3 +1,7 @@
+## Version 0.2.2
+
+Updates Firebase Cloud Functions Dependencies.
+
 ## Version 0.2.1
 
 Updates Post Install demo description.
