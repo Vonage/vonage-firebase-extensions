@@ -23,20 +23,20 @@ Not only does the Vonage Video Express helps remove the complexity of building a
 
 To help create the best quality video call, various methods will be automatically applied like maximizing tile sizes for visible video streams and pausing ones not seen, adjusting resolutions and frame rates depending on network conditions and CPU, and setting higher priorities on speakers and screen shares.
 
-![Graphic showing the larger video feed on the left with a higher resolution and more bitrate and a column of other smaller video feeds to the right with smaller resolution and bitrates.](./qualitymanager.jpeg)
+![Graphic showing the larger video feed on the left with a higher resolution and more bitrate and a column of other smaller video feeds to the right with smaller resolution and bitrates.](https://github.com/Vonage/vonage-firebase-extensions/raw/main/video-express/qualitymanager.jpeg)
 
 ### Experience Manager
 
 Optimizations done on the client-side like muting participants past 10 and reducing bandwidth by requesting smaller streams for smaller sized videos to help increase user experience.
 
 (Unoptimized Video Session)
-![Table showing the amount of bandwidth used for audio and video for 1 to 1, 10 videos, and 25 videos in unoptimized sessions.](./unoptimized-video-session.jpeg)
+![Table showing the amount of bandwidth used for audio and video for 1 to 1, 10 videos, and 25 videos in unoptimized sessions.](https://github.com/Vonage/vonage-firebase-extensions/raw/main/video-express/unoptimized-video-session.jpeg)
 
 (Optimized Video Session)
-![Table showing the amount of bandwidth used for audio and video for 1 to 1, 10 videos, and 25 videos in optimized sessions with as much as 80% lower bandwidth.](./optimized-video-session.jpeg)
+![Table showing the amount of bandwidth used for audio and video for 1 to 1, 10 videos, and 25 videos in optimized sessions with as much as 80% lower bandwidth.](https://github.com/Vonage/vonage-firebase-extensions/raw/main/video-express/optimized-video-session.jpeg)
 
 ### Layout Manager
 
 Automatically adjust the layout of the streams based on screen size and the number of participants.
 
-![Demonstrating the layout changes of colored blocks representing video feeds as they are being added and removed to the screen.](./layoutmanager.gif)
+![Demonstrating the layout changes of colored blocks representing video feeds as they are being added and removed to the screen.](https://github.com/Vonage/vonage-firebase-extensions/raw/main/video-express/layoutmanager.gif)
