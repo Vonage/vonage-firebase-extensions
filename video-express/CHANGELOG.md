@@ -1,6 +1,10 @@
-## Version 0.2.2
+## Version 0.2.3
 
 Updates Firebase Cloud Functions Dependencies.
+
+## Version 0.2.2
+
+Updates Firebase Cloud Functions dependencies.
 
 ## Version 0.2.1
 
