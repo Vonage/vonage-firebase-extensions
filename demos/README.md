@@ -7,4 +7,6 @@ This repository holds the code for demo applications used in Vonage Firebase Ext
 - Create Multiparty Video Calls with Vonage Video Express
 [[source code](https://github.com/Vonage/vonage-firebase-extensions/tree/main/demos/video-express/public)]
 
+- Send an SMS using the Vonage Messages API [[source code](https://github.com/Vonage/vonage-firebase-extensions/tree/main/demos/messages/public)]
+
 Going to give our demos a try? We welcome your feedback on the [Vonage Community Slack](https://developer.vonage.com/community/slack). 
