@@ -2,17 +2,17 @@
 
 ### Documentation
 
-To get an overview and reference for the API, visit the [Vonage Messages API Documentation](https://developer.vonage.com/en/messages/overview).
+Refer to the [Vonage Messages API Documentation](https://developer.vonage.com/en/messages/overview) for more information.
 
 ### Demo Application
 
-To help you get quickly started, we offer a basic demo application that can be run locally. The demo application will ask for configuration for your Firebase application, and then bootstraps an instance that can call the function.
+To help you get started quickly we offer a basic demo application that can be run locally. The demo application will ask for configuration for your Firebase applicationand then bootstraps an instance that can call the function.
 
 Please see the source code available on [GitHub](https://github.com/Vonage/vonage-firebase-extensions/tree/main/demos/messages/public).
 
 ### Usage
 
-This extension provides an `onCall` function that can be called from a Firebase application. It adds a new function that can be pulled from Firebase named `send` that can accept a [Messages Request](https://developer.vonage.com/en/api/messages-olympus#SendMessage) object that will send a message through the Vonage Messages API. 
+This extension provides an `onCall` function that can be called from a Firebase application. It adds a new function that can be pulled from Firebase named `send` that can accept a [Messages Request](https://developer.vonage.com/en/api/messages-olympus#SendMessage) object that will send a message through the Vonage Messages API.
 
 ```js
 const send = httpsCallable(getFunctions(app), 'ext-firebase-vonage-messages-send');
