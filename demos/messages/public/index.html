@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Vonage Firebase Messages Skeleton Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.2.0/tailwind.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.ico" />
+
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="w-full bg-black p-4 flex">
+      <img src="/images/VonageLogo_Primary_White.png" style="height: 40px">
+      <div>
+        <h1 class="text-xl bold text-white px-4">Firebase Messages Demo</h1>
+      </div>
+    </div>
+    <div class="container mx-auto p-4">
+
+      <div class="alert alert-danger hidden bg-red-400 rounded p-4 text-black mb-4" id="error-message">
+      </div>
+
+      <div class="alert alert-success hidden bg-green-500 rounded p-4 text-white mb-4" id="success-message">
+      </div>
+
+      <div id="config-input-container">
+        <div class="mb-4">
+          To run this demo, please paste in the Firebase configuration for your Firebase web application. To find this, go to <a href="">your Firebase Console</a>, click on the tile for your Firebase project. In the left sidebar, click on the Gear icon next to "Project Overview." At the bottom of the page will be your applications. Select your web app, and under "SDK Setup and Configuration" select "Config". Copy the lines from `apiKey` through `appId`, and paste them in the box below. 
+        </div>
+
+        <pre>
+const firebaseConfig = {
+<textarea class="border border-black" name="textarea" id="config-input" rows="8" cols="60" placeholder="Enter Firebase config here.">
+</textarea>
+}
+      </pre>
+<button class="text-white bg-black p-4 rounded shadow cursor-pointer" id="save-config">Save Configuration</button>
+      </div>
+
+      <div id="app-container" class="hidden">
+        <div class="flex items-center mb-6">
+          <div class="w-1/2 text-right pr-4">
+            <label for="to">Number to send SMS to: </label>
+          </div>
+          <div class="w-1/2">
+            <input type="text" name="to" id="to" value="" required class="border">
+          </div>
+        </div>
+
+        <div class="flex items-center mb-6">
+          <div class="w-1/2 text-right pr-4">
+            <label for="from">Vonage number to send SMS from: </label>
+          </div>
+          <div class="w-1/2">
+            <input type="text" name="from" id="from" value="" required class="border">
+          </div>
+        </div>
+
+        <div class="flex items-center mb-6">
+          <div class="w-1/2 text-right pr-4">
+            <label for="text">Message: </label>
+          </div>
+          <div class="w-1/2">
+            <input type="text" name="text" id="text" value="Test from firebase" required class="border"></br>
+          </div>
+        </div>
+
+        <div class="flex items-center mb-6">
+          <div class="w-full text-center">
+            <input type="submit" id="send-sms" class="cursor-pointer text-white bg-black p-4 rounded shadow" value="Send SMS">
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <script type="module" src="/js/index.js" defer></script>
+  </body>
+</html>
