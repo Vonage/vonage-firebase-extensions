@@ -41,24 +41,24 @@ saveConfigButton.addEventListener("click", () => {
     if (firebaseConfigTextarea.value){
         const config = `{${firebaseConfigTextarea.value}}`.replace(/([{,])(\s*)([A-Za-z0-9_\-]+?)\s*:/g, '$1"$3":');
         try {
-        firebaseConfig = JSON.parse(config);
-        console.log(`firebaseConfig: `, firebaseConfig);
-        hideMessages();
-        document.getElementById('app-container').classList.remove("hidden");
-        initFirebase();
+            firebaseConfig = JSON.parse(config);
+            console.log(`firebaseConfig: `, firebaseConfig);
+            hideMessages();
+            document.getElementById('app-container').classList.remove("hidden");
+            initFirebase();
         } catch {
-        displayError('There was a problem with your config. Make sure it is pasted correctly from the Firebase console');
+            displayError('There was a problem with your config. Make sure it is pasted correctly from the Firebase console');
         }
         
     } else {
-    displayError('Please enter a value for the Firebase config');
+        displayError('Please enter a value for the Firebase config');
     }
 });
 
 sendSMSButton.addEventListener('click', async () => {
     hideMessages();
 
-    const send = httpsCallable(getFunctions(app), 'ext-firebase-vonage-messages-y7zr-send');
+    const send = httpsCallable(getFunctions(app), 'ext-firebase-vonage-messages-send');
     send({
         to: document.getElementById('to').value,
         from: document.getElementById('from').value,
@@ -67,15 +67,14 @@ sendSMSButton.addEventListener('click', async () => {
         message_type: 'text'
     })
         .then(resp => {
-        console.log(resp);
-        if (resp.data?.messageUUID) {
-            displaySuccess('Your message was sent successfully. If you do not recieve it on your device, check your logs in your Vonage Customer Dashboard');
-        } else {
-            displayError(`There was an issue sending the message:<br/><span class="bold">${resp.data.response.data.title}</span> - ${resp.data.response.data.detail}`);
-        }
-        
+            console.log(resp);
+            if (resp.data?.messageUUID) {
+                displaySuccess('Your message was sent successfully. If you do not recieve it on your device, check your logs in your Vonage Customer Dashboard');
+            } else {
+                displayError(`There was an issue sending the message:<br/><span class="bold">${resp.data.response.data.title}</span> - ${resp.data.response.data.detail}`);
+            }
         })
         .catch(err => {
-        displayError(`There was an issue sending the message:<br/><span class="bold">${err.data.response.data.title}</span> - ${err.data.response.data.detail}`);
+            displayError(`There was an issue sending the message:<br/><span class="bold">${err.data.response.data.title}</span> - ${err.data.response.data.detail}`);
         });
 })
