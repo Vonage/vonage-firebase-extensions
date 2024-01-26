@@ -1,4 +1,4 @@
-/* global OT, VideoExpress, apiKey, sessionId, token */
+/* global OT, VideoExpress, applicationId, sessionId, token */
 
 // client-side js, loaded by index.html
 // run by the browser each time the page is loaded
@@ -31,7 +31,7 @@ const myPreviewVideoEl = document.querySelector("#myPreviewVideo");
 
 let previewPublisher;
 let room;
-let apiKey;
+let applicationId;
 let sessionId;
 let token;
 let participantName;
@@ -57,7 +57,7 @@ async function initFirebase(){
       const docSnap = await getDoc(doc(db, "rooms", roomName));
       if (docSnap.exists()) {
         console.log("Room data: ", docSnap.data());
-        apiKey = docSnap.data().apiKey;
+        applicationId = docSnap.data().applicationId;
         sessionId = docSnap.data().sessionId;
       } else {
         // doc.data() will be undefined in this case
@@ -147,8 +147,8 @@ const joinRoom = async() => {
   if(!room){
     console.log("create a new room")
     room = new VideoExpress.Room({
-      apiKey: apiKey, // add your OpenTok APIKey
-      sessionId: sessionId, // add your OpenTok Session Id
+      apiKey: applicationId, // add your Vonage Application ID
+      sessionId: sessionId, // add your Vonage Video Session Id
       token: token, // add your OpenTok token
       participantName: participantName,
       roomContainer: 'roomContainer',

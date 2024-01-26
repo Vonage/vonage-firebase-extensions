@@ -2,7 +2,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-const OpenTok = require("opentok");
+const { Vonage } = require('@vonage/server-sdk');
 
 const db = admin.firestore();
 
@@ -38,29 +38,24 @@ exports.demo = functions.handler.https.onRequest(app);
 
 /////////////////////
 
-async function initializeOpenTok(){
+async function initializeVonage(){
     console.log("initializeOpenTok");
-    return new OpenTok(process.env.VONAGE_API_KEY, process.env.VONAGE_API_SECRET);
+    const privateKey = Buffer.from(process.env.VONAGE_PRIVATE_KEY_64, 'base64');
+    return new Vonage({
+        applicationId: process.env.VONAGE_APPLICATION_ID,
+        privateKey: privateKey
+    });
 }
 
 async function createSession(){
     console.log("createSession");
-    let opentok;
+    let vonage;
     try {
-        opentok = await initializeOpenTok();
+        vonage = await initializeVonage();
     } catch (error) {
-        console.log('error initializing OpenTok ', error);
+        console.log('error initializing Vonage ', error);
     }
-    return new Promise( (resolve, reject) => {
-        opentok.createSession({mediaMode:"routed"}, (error, session)=>{
-            if(error){
-                console.error("error creating session ", error);
-                reject({error});
-            } else {
-                resolve(session);
-            }
-        });
-    });
+    return vonage.video.createSession({mediaMode:"routed"});
 }
 
 exports.createRoom = functions.handler.firestore.document
@@ -71,7 +66,7 @@ exports.createRoom = functions.handler.firestore.document
             const pathSegments = snap.ref._path.segments
             const roomId = pathSegments[pathSegments.length-1];
             return db.collection("rooms").doc(roomId).set({
-                apiKey: session.ot.apiKey,
+                applicationId: session.ot.applicationId,
                 sessionId: session.sessionId
             },{merge: true})
             .then(()=>{
@@ -92,7 +87,7 @@ exports.generateToken = functions.handler.firestore.document
     .onCreate( async (snap, context) =>{
         console.log("generateToken");
         try {
-            const opentok = await initializeOpenTok();
+            const vonage = await initializeVonage();
             const pathSegments = snap.ref._path.segments;
             console.log('pathSegments: ', pathSegments);
             const participantName = pathSegments[pathSegments.length-1];
@@ -105,7 +100,7 @@ exports.generateToken = functions.handler.firestore.document
                 } else {
                     const sessionId = roomData.data().sessionId;
                     console.log("sessionId: ", sessionId);
-                    const token = opentok.generateToken(sessionId);
+                    const token = vonage.video.generateClientToken(sessionId);
                     return db.collection("rooms").doc(pathSegments[1]).collection("participants").doc(participantName).set({
                         token: token
                     },{merge: true})
@@ -119,7 +114,7 @@ exports.generateToken = functions.handler.firestore.document
                     });
                 }
             }).catch((error) => {
-                console.log("Error initializing OpenTok: ", error);
+                console.log("Error initializing Vonage: ", error);
             })
         } catch (error){
             console.error("Error creating room or session: ", error);
