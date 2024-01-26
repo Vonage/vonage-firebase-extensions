@@ -39,7 +39,7 @@ exports.demo = functions.handler.https.onRequest(app);
 /////////////////////
 
 async function initializeVonage(){
-    console.log("initializeOpenTok");
+    console.log("initializeVonage");
     const privateKey = Buffer.from(process.env.VONAGE_PRIVATE_KEY_64, 'base64');
     return new Vonage({
         applicationId: process.env.VONAGE_APPLICATION_ID,
