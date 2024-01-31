@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name: firestore-vonage-video-express
-version: 0.2.3
+version: 0.3.0
 specVersion: v1beta
 
 displayName: Create Multiparty Video Calls
@@ -135,22 +135,20 @@ params:
     required: true
     immutable: true
 
-  - param: VONAGE_API_KEY
-    label: Vonage Video Project (TokBox) API Key
+  - param: VONAGE_APPLICATION_ID
+    label: Vonage Application ID
     type: secret
     description: >-
-      This is your project's API Key.
-      It is available in the [dashboard](https://tokbox.com/account).
-      You can create a new project or select a previous one.
-    example: 12345678
+      This is the Application ID for an application with Messages capabilities.
+      It is available in the [dashboard](https://dashboard.nexmo.com/applications).
+    example: fda39173-9f59-48e1-bbd3-b0894ce6e0e4
     required: true
 
-  - param: VONAGE_API_SECRET
-    label: Vonage Video Project (TokBox) API Secret
+  - param: VONAGE_PRIVATE_KEY_64
+    label: Vonage Private Key (Base64 Formatted)
     type: secret
     description: >-
-      This is your project's API Secret.
-      It is available in the [dashboard](https://tokbox.com/account).
-      You can create a new project or select a previous one.
-    example: a12b34cde567890123fgh4ij5k67lmnop8qr9012s3
+      This is the Private Key in Base64 Format for the accompanying application with Messages capabilities.
+      See our [blog post](https://developer.vonage.com/en/blog/using-private-keys-in-environment-variables) for turning a private key file into a Base64 string.
+    example: ZmRhMzkxNzMtOWY1OS00OGUxLWJiZDMtYjA4OTRjZTZlMGU0
     required: true

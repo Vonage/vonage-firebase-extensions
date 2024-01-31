@@ -41,7 +41,7 @@ createRoomBtn.addEventListener("click", async()=> {
     createRoomBtn.disabled = true;
     try {
         await setDoc(doc(db, "rooms", roomName), {
-            apiKey: "",
+            applicationId: "",
             sessionId: ""
         });
         const unsub = onSnapshot(doc(db, "rooms", roomName), (doc) => {
