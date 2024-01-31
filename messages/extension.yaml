@@ -4,7 +4,7 @@
 # Identifier for your extension
 # TODO: Replace this with an descriptive name for your extension.
 name: firebase-vonage-messages
-version: 1.0.1  # Follow semver versioning
+version: 1.0.2  # Follow semver versioning
 specVersion: v1beta  # Version of the Firebase Extensions specification
 icon: Vonage_Extension_Messages.png
 
@@ -14,6 +14,7 @@ displayName: Vonage Messages API
 # Brief description of the task your extension performs (~1 sentence)
 description: >-
   Send a Message using the Vonage Communication API Platform
+tags: [messaging]
 
 license: Apache-2.0  # https://spdx.org/licenses/
 
