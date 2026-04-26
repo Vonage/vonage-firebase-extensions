@@ -5,7 +5,7 @@
   "dependencies": {
     "@vonage/auth": "^1.7.0",
     "@vonage/messages": "^1.10.0",
-    "firebase-admin": "^11.5.0",
+    "firebase-admin": "^13.0.0",
     "firebase-functions": "^4.2.0"
   },
   "devDependencies": {
